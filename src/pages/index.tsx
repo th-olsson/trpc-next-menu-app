@@ -1,13 +1,11 @@
 import Head from "next/head";
-import { trpc } from "../utils/trpc";
 import LoginButton from "@/components/LoginButton";
+import { trpc } from "@/utils/trpc";
+import Menu from "@/components/Menu/Menu";
+import MenuForm from "@/components/Menu/forms/MenuForm";
 
 export default function Home() {
-  const hello = trpc.hello.useQuery({ text: "client" });
-
-  if (!hello.data) {
-    return <div>Loading...</div>;
-  }
+  const menus = trpc.menu.list.useQuery();
 
   return (
     <>
@@ -19,8 +17,11 @@ export default function Home() {
       </Head>
       <main>
         <h1>Menu App</h1>
-        <p>{hello.data.greeting}</p>
         <LoginButton />
+        {menus.data?.menus.map((menu) => (
+          <Menu key={menu.id} {...menu} />
+        ))}
+        <MenuForm />
       </main>
     </>
   );
