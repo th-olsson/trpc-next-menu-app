@@ -1,5 +1,7 @@
 import Head from "next/head";
 import { trpc } from "../utils/trpc";
+import { useSession } from "next-auth/react";
+import LoginButton from "@/components/LoginButton";
 
 export default function Home() {
   const hello = trpc.hello.useQuery({ text: "client" });
@@ -19,6 +21,7 @@ export default function Home() {
       <main>
         <h1>Menu App</h1>
         <p>{hello.data.greeting}</p>
+        <LoginButton />
       </main>
     </>
   );
