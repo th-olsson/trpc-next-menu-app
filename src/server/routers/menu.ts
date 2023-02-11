@@ -3,6 +3,7 @@ import { Prisma } from "@prisma/client";
 import { z } from "zod";
 import { prisma } from "@/server/db";
 import { deleteMenuSchema } from "@/components/Menu/forms/DeleteMenu";
+import { addMenuSchema } from "@/components/Menu/forms/MenuForm";
 
 const defaultMenuSelect = Prisma.validator<Prisma.MenuSelect>()({
   id: true,
@@ -27,19 +28,13 @@ export const menuRouter = router({
       menus,
     };
   }),
-  add: procedure
-    .input(
-      z.object({
-        name: z.string(),
-      })
-    )
-    .mutation(async ({ input }) => {
-      const menu = await prisma.menu.create({
-        data: input,
-        select: defaultMenuSelect,
-      });
-      return menu;
-    }),
+  add: procedure.input(addMenuSchema).mutation(async ({ input }) => {
+    const menu = await prisma.menu.create({
+      data: input,
+      select: defaultMenuSelect,
+    });
+    return menu;
+  }),
   delete: procedure.input(deleteMenuSchema).mutation(async ({ input }) => {
     const menu = await prisma.menu.delete({
       where: {

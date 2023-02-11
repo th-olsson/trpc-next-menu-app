@@ -2,7 +2,7 @@ import { useZodForm } from "@/hooks/useZodForm";
 import { z } from "zod";
 import { trpc } from "@/utils/trpc";
 
-const addMenuSchema = z.object({
+export const addMenuSchema = z.object({
   name: z.string().min(3).max(50),
 });
 
