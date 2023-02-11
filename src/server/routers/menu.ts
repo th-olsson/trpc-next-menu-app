@@ -2,7 +2,7 @@ import { router, procedure } from "../trpc";
 import { Prisma } from "@prisma/client";
 import { z } from "zod";
 import { prisma } from "@/server/db";
-import { deleteMenuSchema } from "@/components/Menu/Menu";
+import { deleteMenuSchema } from "@/components/Menu/forms/DeleteMenu";
 
 const defaultMenuSelect = Prisma.validator<Prisma.MenuSelect>()({
   id: true,
