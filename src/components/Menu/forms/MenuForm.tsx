@@ -2,21 +2,27 @@ import { useZodForm } from "@/hooks/useZodForm";
 import { z } from "zod";
 import { trpc } from "@/utils/trpc";
 
-const schema = z.object({
+const addMenuSchema = z.object({
   name: z.string().min(3).max(50),
 });
 
 type MenuFormProps = {
-  previousValues?: z.infer<typeof schema>;
+  previousValues?: z.infer<typeof addMenuSchema>;
   editing?: boolean;
+  adding?: boolean;
+  cancelAdding?: () => void;
 };
+
+type AddMenuInput = z.infer<typeof addMenuSchema>;
 
 export default function MenuForm({
   previousValues,
   editing,
+  adding,
+  cancelAdding,
 }: MenuFormProps): JSX.Element {
   const { register, handleSubmit, reset } = useZodForm({
-    schema,
+    schema: addMenuSchema,
     defaultValues: editing ? previousValues : undefined,
   });
   const utils = trpc.useContext();
@@ -27,17 +33,26 @@ export default function MenuForm({
     },
   });
 
-  const onSubmit = async (data: z.infer<typeof schema>) => {
+  const onSubmit = async (data: AddMenuInput) => {
     const { name } = data;
-    const result = await addMenu.mutateAsync({ name });
-    console.log("created menu:", result);
+    await addMenu.mutateAsync({ name });
     reset();
   };
 
   return (
     <form onSubmit={handleSubmit((data) => onSubmit(data))}>
-      <input type="name" required {...register("name")} />
+      <label htmlFor="add-menu-name">Name</label>
+      <input
+        id="add-menu-name"
+        type="name"
+        {...register("name", { required: true })}
+      />
       <button type="submit">Submit</button>
+      {adding && (
+        <button type="button" onClick={cancelAdding}>
+          Cancel
+        </button>
+      )}
     </form>
   );
 }

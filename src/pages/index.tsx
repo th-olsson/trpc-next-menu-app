@@ -3,8 +3,10 @@ import LoginButton from "@/components/LoginButton";
 import { trpc } from "@/utils/trpc";
 import Menu from "@/components/Menu/Menu";
 import MenuForm from "@/components/Menu/forms/MenuForm";
+import { useState } from "react";
 
 export default function Home() {
+  const [adding, setAdding] = useState(false);
   const menus = trpc.menu.list.useQuery();
 
   return (
@@ -18,10 +20,13 @@ export default function Home() {
       <main>
         <h1>Menu App</h1>
         <LoginButton />
-        {menus.data?.menus.map((menu) => (
-          <Menu key={menu.id} {...menu} />
+        {menus.data?.menus.map(({ id, name, items }) => (
+          <Menu key={id} id={id} name={name} items={items} />
         ))}
-        <MenuForm />
+        {!adding && <button onClick={() => setAdding(true)}>Add menu</button>}
+        {adding && (
+          <MenuForm adding={adding} cancelAdding={() => setAdding(false)} />
+        )}
       </main>
     </>
   );
