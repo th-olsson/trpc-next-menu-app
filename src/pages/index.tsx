@@ -2,7 +2,7 @@ import Head from "next/head";
 import LoginButton from "@/components/LoginButton";
 import { trpc } from "@/utils/trpc";
 import Menu from "@/components/Menu/Menu";
-import MenuForm from "@/components/Menu/forms/MenuForm";
+import AddMenu from "@/components/Menu/forms/AddMenu";
 import { useState } from "react";
 
 export default function Home() {
@@ -25,7 +25,7 @@ export default function Home() {
         ))}
         {!adding && <button onClick={() => setAdding(true)}>Add menu</button>}
         {adding && (
-          <MenuForm adding={adding} cancelAdding={() => setAdding(false)} />
+          <AddMenu adding={adding} cancelAdding={() => setAdding(false)} />
         )}
       </main>
     </>

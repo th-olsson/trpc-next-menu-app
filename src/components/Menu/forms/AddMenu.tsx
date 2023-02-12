@@ -6,25 +6,24 @@ export const addMenuSchema = z.object({
   name: z.string().min(3).max(50),
 });
 
-type MenuFormProps = {
-  previousValues?: z.infer<typeof addMenuSchema>;
-  editing?: boolean;
-  adding?: boolean;
-  cancelAdding?: () => void;
+type AddMenuProps = {
+  adding: boolean;
+  cancelAdding: () => void;
 };
 
 type AddMenuInput = z.infer<typeof addMenuSchema>;
 
-export default function MenuForm({
-  previousValues,
-  editing,
+export default function AddMenu({
   adding,
   cancelAdding,
-}: MenuFormProps): JSX.Element {
+}: AddMenuProps): JSX.Element {
   const { register, handleSubmit, reset } = useZodForm({
     schema: addMenuSchema,
-    defaultValues: editing ? previousValues : undefined,
+    defaultValues: {
+      name: "",
+    },
   });
+
   const utils = trpc.useContext();
 
   const addMenu = trpc.menu.add.useMutation({
@@ -36,6 +35,7 @@ export default function MenuForm({
   const onSubmit = async (data: AddMenuInput) => {
     const { name } = data;
     await addMenu.mutateAsync({ name });
+    cancelAdding();
     reset();
   };
 

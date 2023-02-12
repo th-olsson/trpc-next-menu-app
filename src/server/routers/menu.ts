@@ -1,9 +1,8 @@
 import { router, procedure } from "../trpc";
 import { Prisma } from "@prisma/client";
-import { z } from "zod";
 import { prisma } from "@/server/db";
 import { deleteMenuSchema } from "@/components/Menu/forms/DeleteMenu";
-import { addMenuSchema } from "@/components/Menu/forms/MenuForm";
+import { addMenuSchema } from "@/components/Menu/forms/AddMenu";
 
 const defaultMenuSelect = Prisma.validator<Prisma.MenuSelect>()({
   id: true,
@@ -44,4 +43,14 @@ export const menuRouter = router({
     });
     return menu;
   }),
+  // update: procedure.input(editMenuSchema).mutation(async ({ input }) => {
+  //   const menu = await prisma.menu.update({
+  //     where: {
+  //       id: input.id,
+  //     },
+  //     data: input,
+  //     select: defaultMenuSelect,
+  //   });
+  //   return menu;
+  // }),
 });
