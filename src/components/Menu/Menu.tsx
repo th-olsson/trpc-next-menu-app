@@ -28,7 +28,7 @@ export default function Menu({ id, name, items }: MenuProps): JSX.Element {
           <button onClick={() => setEditing(true)}>Edit menu</button>
         </>
       )}
-      <DeleteMenu id={id} />
+      <DeleteMenu id={id} name={name} />
       <table>
         <tbody>
           {items.length === 0 ? (

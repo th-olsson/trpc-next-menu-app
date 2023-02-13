@@ -45,22 +45,24 @@ export default function EditMenu({
     reset();
   };
 
+  const prefix = "edit-menu";
+
   return (
     <fieldset>
       <legend>Edit menu</legend>
       <form onSubmit={handleSubmit((data) => onSubmit(data))}>
         <input
-          id="edit-menu-id"
+          id={`${prefix}-id`}
           type="hidden"
           {...register("id", { required: true })}
         />
-        <label htmlFor={`edit-menu-name-${id}`}>Name</label>
+        <label htmlFor={`${prefix}-name-${id}`}>Name</label>
         <input
-          id={`edit-menu-name-${id}`}
+          id={`${prefix}-name-${id}`}
           type="name"
           {...register("name", { required: true })}
         />
-        <button type="submit">Submit</button>
+        <button type="submit">Update</button>
         {editing && (
           <button type="button" onClick={cancelEditing}>
             Cancel

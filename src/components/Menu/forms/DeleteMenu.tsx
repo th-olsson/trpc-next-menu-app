@@ -8,7 +8,12 @@ export const deleteMenuSchema = z.object({
 
 type DeleteMenuInput = z.infer<typeof deleteMenuSchema>;
 
-export default function DeleteMenu({ id }: { id: string }): JSX.Element {
+type DeleteMenuProps = {
+  id: string;
+  name: string;
+};
+
+export default function DeleteMenu({ id, name }: DeleteMenuProps): JSX.Element {
   const { register, handleSubmit } = useZodForm({
     schema: deleteMenuSchema,
   });
@@ -22,7 +27,7 @@ export default function DeleteMenu({ id }: { id: string }): JSX.Element {
 
   const onSubmit = async (data: DeleteMenuInput) => {
     const { id } = data;
-    if (confirm(`Are you sure you want to delete this menu?`)) {
+    if (confirm(`Are you sure you want to delete menu: "${name}"?`)) {
       await deleteMenu.mutateAsync({ id });
     }
   };
