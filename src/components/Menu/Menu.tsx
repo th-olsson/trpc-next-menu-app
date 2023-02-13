@@ -2,6 +2,7 @@ import { AppRouter } from "@/server/routers/_app";
 import type { inferRouterOutputs } from "@trpc/server";
 import { useState } from "react";
 import AddItem from "../MenuItem/forms/AddItem";
+import MenuItem from "../MenuItem/MenuItem";
 import DeleteMenu from "./forms/DeleteMenu";
 import EditMenu from "./forms/EditMenu";
 
@@ -12,20 +13,37 @@ export default function Menu({ id, name, items }: MenuProps): JSX.Element {
   const [editing, setEditing] = useState(false);
   const [adding, setAdding] = useState(false);
 
-  if (editing) {
-    return (
-      <EditMenu
-        id={id}
-        name={name}
-        editing={editing}
-        cancelEditing={() => setEditing(false)}
-      />
-    );
-  }
-
   return (
     <>
-      <h2>{name}</h2>
+      {editing ? (
+        <EditMenu
+          id={id}
+          name={name}
+          editing={editing}
+          cancelEditing={() => setEditing(false)}
+        />
+      ) : (
+        <>
+          <h2>{name}</h2>
+          <button onClick={() => setEditing(true)}>Edit menu</button>
+        </>
+      )}
+      <DeleteMenu id={id} />
+      <table>
+        <tbody>
+          {items.length === 0 ? (
+            <tr>
+              <td>(This menu is empty)</td>
+            </tr>
+          ) : (
+            <>
+              {items.map(({ id, name, price }) => (
+                <MenuItem key={id} id={id} name={name} price={price} />
+              ))}
+            </>
+          )}
+        </tbody>
+      </table>
       {adding ? (
         <AddItem
           menuId={id}
@@ -33,17 +51,10 @@ export default function Menu({ id, name, items }: MenuProps): JSX.Element {
           cancelAdding={() => setAdding(false)}
         />
       ) : (
-        <button onClick={() => setAdding(true)}>Add item</button>
+        <div>
+          <button onClick={() => setAdding(true)}>Add item</button>
+        </div>
       )}
-      <button onClick={() => setEditing(true)}>Edit</button>
-      <DeleteMenu id={id} />
-      <ul>
-        {items.map(({ id, name, price }) => (
-          <li key={id}>
-            {name} - {price}
-          </li>
-        ))}
-      </ul>
     </>
   );
 }

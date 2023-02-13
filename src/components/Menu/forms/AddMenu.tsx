@@ -40,19 +40,22 @@ export default function AddMenu({
   };
 
   return (
-    <form onSubmit={handleSubmit((data) => onSubmit(data))}>
-      <label htmlFor="add-menu-name">Name</label>
-      <input
-        id="add-menu-name"
-        type="name"
-        {...register("name", { required: true })}
-      />
-      <button type="submit">Submit</button>
-      {adding && (
-        <button type="button" onClick={cancelAdding}>
-          Cancel
-        </button>
-      )}
-    </form>
+    <fieldset>
+      <legend>Add menu</legend>
+      <form onSubmit={handleSubmit((data) => onSubmit(data))}>
+        <label htmlFor="add-menu-name">Name</label>
+        <input
+          id="add-menu-name"
+          type="name"
+          {...register("name", { required: true })}
+        />
+        <button type="submit">Submit</button>
+        {adding && (
+          <button type="button" onClick={cancelAdding}>
+            Cancel
+          </button>
+        )}
+      </form>
+    </fieldset>
   );
 }

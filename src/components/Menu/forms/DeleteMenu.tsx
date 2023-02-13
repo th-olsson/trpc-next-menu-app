@@ -28,9 +28,9 @@ export default function DeleteMenu({ id }: { id: string }): JSX.Element {
   };
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)}>
+    <form onSubmit={handleSubmit(onSubmit)} style={{ display: "inline-block" }}>
       <input type="hidden" {...register("id")} value={id} />
-      <button type="submit">Delete</button>
+      <button type="submit">Delete menu</button>
     </form>
   );
 }

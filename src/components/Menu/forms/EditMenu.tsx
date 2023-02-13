@@ -46,24 +46,27 @@ export default function EditMenu({
   };
 
   return (
-    <form onSubmit={handleSubmit((data) => onSubmit(data))}>
-      <input
-        id="edit-menu-id"
-        type="hidden"
-        {...register("id", { required: true })}
-      />
-      <label htmlFor={`edit-menu-name-${id}`}>Name</label>
-      <input
-        id={`edit-menu-name-${id}`}
-        type="name"
-        {...register("name", { required: true })}
-      />
-      <button type="submit">Submit</button>
-      {editing && (
-        <button type="button" onClick={cancelEditing}>
-          Cancel
-        </button>
-      )}
-    </form>
+    <fieldset>
+      <legend>Edit menu</legend>
+      <form onSubmit={handleSubmit((data) => onSubmit(data))}>
+        <input
+          id="edit-menu-id"
+          type="hidden"
+          {...register("id", { required: true })}
+        />
+        <label htmlFor={`edit-menu-name-${id}`}>Name</label>
+        <input
+          id={`edit-menu-name-${id}`}
+          type="name"
+          {...register("name", { required: true })}
+        />
+        <button type="submit">Submit</button>
+        {editing && (
+          <button type="button" onClick={cancelEditing}>
+            Cancel
+          </button>
+        )}
+      </form>
+    </fieldset>
   );
 }

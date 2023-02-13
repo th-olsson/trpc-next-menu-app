@@ -20,9 +20,11 @@ export default function Home() {
       <main>
         <h1>Menu App</h1>
         <LoginButton />
+
         {menus.data?.menus.map(({ id, name, items }) => (
           <Menu key={id} id={id} name={name} items={items} />
         ))}
+
         {!adding && <button onClick={() => setAdding(true)}>Add menu</button>}
         {adding && (
           <AddMenu adding={adding} cancelAdding={() => setAdding(false)} />
