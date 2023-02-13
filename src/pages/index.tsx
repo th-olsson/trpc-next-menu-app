@@ -9,16 +9,22 @@ export default function Home() {
   const [adding, setAdding] = useState(false);
   const menus = trpc.menu.list.useQuery();
 
+  let title = "Menu";
+
+  if (menus.data) {
+    title = menus.data.menus.length > 1 ? "Menus" : "Menu";
+  }
+
   return (
     <>
       <Head>
-        <title>Menu App</title>
+        <title>{title}</title>
         <meta name="description" content="Meta description goes here" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <main>
-        <h1>Menu App</h1>
+        <h1>{title}</h1>
         <LoginButton />
 
         {menus.data?.menus.map(({ id, name, items }) => (
