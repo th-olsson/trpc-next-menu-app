@@ -2,6 +2,7 @@ import { router, procedure } from "../trpc";
 import { Prisma } from "@prisma/client";
 import { prisma } from "@/server/db";
 import { addItemSchema } from "@/components/MenuItem/forms/AddItem";
+import { deleteItemSchema } from "@/components/MenuItem/forms/DeleteItem";
 
 const defaultItemSelect = Prisma.validator<Prisma.MenuItemSelect>()({
   id: true,
@@ -19,16 +20,16 @@ export const itemRouter = router({
     });
     return item;
   }),
-  // delete: procedure.input(deleteitemschema).mutation(async ({ input }) => {
-  //   const item = await prisma.menuItem.delete({
-  //     where: {
-  //       id: input.id,
-  //     },
-  //     select: defaultItemSelect,
-  //   });
-  //   return item;
-  // }),
-  // update: procedure.input(edititemschema).mutation(async ({ input }) => {
+  delete: procedure.input(deleteItemSchema).mutation(async ({ input }) => {
+    const item = await prisma.menuItem.delete({
+      where: {
+        id: input.id,
+      },
+      select: defaultItemSelect,
+    });
+    return item;
+  }),
+  // update: procedure.input(editItemSchema).mutation(async ({ input }) => {
   //   const item = await prisma.menuItem.update({
   //     where: {
   //       id: input.id,

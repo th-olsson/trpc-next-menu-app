@@ -1,4 +1,5 @@
 import { useState } from "react";
+import DeleteItem from "./forms/DeleteItem";
 
 type MenuItemProps = {
   id: string;
@@ -29,10 +30,7 @@ export default function MenuItem({
         </button>
       </td>
       <td>
-        <form action="?/deleteMenuItem" method="post">
-          <input type="hidden" name="menuItemId" value={id} />
-          <button type="submit">Delete</button>
-        </form>
+        <DeleteItem id={id} name={name} />
       </td>
 
       {/* )} */}
