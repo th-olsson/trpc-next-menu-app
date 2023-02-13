@@ -1,5 +1,6 @@
 import { useState } from "react";
 import DeleteItem from "./forms/DeleteItem";
+import EditItem from "./forms/EditItem";
 
 type MenuItemProps = {
   id: string;
@@ -16,24 +17,30 @@ export default function MenuItem({
 
   return (
     <tr>
-      {/* {editing ? (
-      <td>
-        <EditMenuItem {id} {name} {price} bind:editing />
-      </td>
-    ) : ( */}
-      <td>{name}</td>
-      <td>{price} kr</td>
-      {/* <!-- TODO: Only render this if the user is logged in --> */}
-      <td>
-        <button type="button" onClick={() => setEditing(true)}>
-          Edit
-        </button>
-      </td>
-      <td>
-        <DeleteItem id={id} name={name} />
-      </td>
-
-      {/* )} */}
+      {editing ? (
+        <td colSpan={4}>
+          <EditItem
+            id={id}
+            name={name}
+            price={price}
+            editing={editing}
+            cancelEditing={() => setEditing(false)}
+          />
+        </td>
+      ) : (
+        <>
+          <td>{name}</td>
+          <td>{price} kr</td>
+          <td>
+            <button type="button" onClick={() => setEditing(true)}>
+              Edit
+            </button>
+          </td>
+          <td>
+            <DeleteItem id={id} name={name} />
+          </td>
+        </>
+      )}
     </tr>
   );
 }

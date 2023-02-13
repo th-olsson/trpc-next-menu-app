@@ -3,6 +3,7 @@ import { Prisma } from "@prisma/client";
 import { prisma } from "@/server/db";
 import { addItemSchema } from "@/components/MenuItem/forms/AddItem";
 import { deleteItemSchema } from "@/components/MenuItem/forms/DeleteItem";
+import { editItemSchema } from "@/components/MenuItem/forms/EditItem";
 
 const defaultItemSelect = Prisma.validator<Prisma.MenuItemSelect>()({
   id: true,
@@ -29,14 +30,14 @@ export const itemRouter = router({
     });
     return item;
   }),
-  // update: procedure.input(editItemSchema).mutation(async ({ input }) => {
-  //   const item = await prisma.menuItem.update({
-  //     where: {
-  //       id: input.id,
-  //     },
-  //     data: input,
-  //     select: defaultItemSelect,
-  //   });
-  //   return item;
-  // }),
+  update: procedure.input(editItemSchema).mutation(async ({ input }) => {
+    const item = await prisma.menuItem.update({
+      where: {
+        id: input.id,
+      },
+      data: input,
+      select: defaultItemSelect,
+    });
+    return item;
+  }),
 });
